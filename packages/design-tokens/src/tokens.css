@@ -1,0 +1,163 @@
+:root {
+  color-scheme: light;
+
+  /* 焦点蓝：只用于焦点环、halo 与不承载文字的强调（DESIGN.md focus-blue）；
+     主行动蓝（action-blue #2563eb）与焦点蓝（#3b82f6）必须分离 */
+  --aicp-color-electric-cobalt: #3b82f6;
+  --aicp-color-action-blue: #2563eb;
+  --aicp-color-data-sky: #5b8ff9;
+  --aicp-color-learning-green: #22a06b;
+  --aicp-color-signal-yellow: #f59e0b;
+  --aicp-color-signal-coral: #ef4444;
+  --aicp-color-ink: #1f2937;
+  --aicp-color-muted-ink: #667085;
+  --aicp-color-canvas: #f7f7f7;
+  --aicp-color-surface: #ffffff;
+  --aicp-color-line: #f2f2f2;
+
+  /* 应用语义桥接：共享消费者只依赖角色，不依赖具体色名。 */
+  --aicp-color-blueprint-cobalt: var(--aicp-color-electric-cobalt);
+  --aicp-color-operational-blue: var(--aicp-color-action-blue);
+  --aicp-color-data-azure: var(--aicp-color-data-sky);
+  --aicp-color-data-periwinkle: #8b5cf6;
+  --aicp-color-data-slate: #64748b;
+  --aicp-color-operational-ink: var(--aicp-color-ink);
+  --aicp-color-muted-blue-gray: var(--aicp-color-muted-ink);
+  --aicp-color-workspace: var(--aicp-color-canvas);
+
+  --aicp-color-brand: var(--aicp-color-action-blue);
+  --aicp-color-action-primary: var(--aicp-color-action-blue);
+  --aicp-color-action-primary-hover: #1d4ed8;
+  --aicp-color-action-primary-active: #1d4ed8;
+  --aicp-color-text-primary: var(--aicp-color-ink);
+  --aicp-color-text-secondary: #667085;
+  --aicp-color-text-tertiary: #667085;
+  --aicp-color-text-on-accent: var(--aicp-color-surface);
+  --aicp-color-bg-canvas: var(--aicp-color-canvas);
+  --aicp-color-bg-surface: var(--aicp-color-surface);
+  --aicp-color-bg-subtle: #fafafa;
+  --aicp-color-bg-selected: #eff6ff;
+  --aicp-color-bg-hover: #f3f7ff;
+  --aicp-color-border-subtle: var(--aicp-color-line);
+  --aicp-color-border-interactive: #e8e8e8;
+  /* 交互控件 hover 时边框加深为中性灰（不随主题蓝演变，保持边框的中性角色） */
+  --aicp-color-border-hover: #a3a3a3;
+  --aicp-color-focus-ring: var(--aicp-color-electric-cobalt);
+  --aicp-color-focus-halo: rgb(59 130 246 / 18%);
+  --aicp-color-status-neutral: #5f6b7a;
+  --aicp-color-status-neutral-bg: #f2f4f7;
+  --aicp-color-status-info: var(--aicp-color-action-blue);
+  --aicp-color-status-info-bg: #eff6ff;
+  --aicp-color-status-progress: var(--aicp-color-action-blue);
+  --aicp-color-status-progress-bg: #eff6ff;
+  --aicp-color-status-success: #067647;
+  --aicp-color-status-success-bg: #ecfdf3;
+  --aicp-color-status-warning: #b54708;
+  --aicp-color-status-warning-bg: #fffaeb;
+  --aicp-color-status-risk: #b42318;
+  --aicp-color-status-risk-bg: #fef3f2;
+  --aicp-color-data-primary: var(--aicp-color-electric-cobalt);
+  --aicp-color-data-secondary: var(--aicp-color-data-sky);
+  --aicp-color-data-positive: var(--aicp-color-learning-green);
+  --aicp-color-data-attention: var(--aicp-color-signal-yellow);
+  --aicp-color-data-risk: var(--aicp-color-signal-coral);
+
+  --aicp-font-body: "Noto Sans SC Variable", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --aicp-font-data: "Manrope Variable", "Avenir Next", "Segoe UI", sans-serif;
+  --aicp-font-utility: "IBM Plex Mono", "SFMono-Regular", monospace;
+  --aicp-radius-chip: 4px;
+  --aicp-radius-control: 5px;
+  --aicp-radius-surface: 6px;
+  --aicp-radius-shell: 6px;
+  --aicp-space-xs: 4px;
+  --aicp-space-sm: 8px;
+  --aicp-space-control: 10px;
+  --aicp-space-md: 12px;
+  --aicp-space-lg: 16px;
+  --aicp-space-xl: 20px;
+  --aicp-space-panel: 24px;
+  --aicp-space-section: 28px;
+  --aicp-shadow-surface: 0 1px 2px rgb(16 24 40 / 3%);
+  --aicp-shadow-elevated: 0 8px 20px rgb(16 24 40 / 8%), 0 2px 6px rgb(16 24 40 / 4%);
+  --aicp-shadow-action: 0 2px 5px rgb(37 99 235 / 18%);
+  /* 资产卡片：基础态轻微浮起，hover 态增强空气感（DESIGN.md：hover 可略微增强阴影） */
+  --aicp-shadow-card: 0 1px 2px rgb(16 24 40 / 4%), 0 6px 18px -10px rgb(16 24 40 / 14%);
+  --aicp-shadow-card-hover: 0 2px 4px rgb(16 24 40 / 5%), 0 10px 24px -12px rgb(16 24 40 / 20%);
+  /* 悬浮覆盖条：工作区内 sticky 批量操作条等较明显的漂浮反馈 */
+  --aicp-shadow-overlay: 0 10px 30px -12px rgb(16 24 40 / 28%);
+  /* 焦点环：输入与面板聚焦时的蓝色 halo（DESIGN.md：焦点蓝只用于 focus） */
+  --aicp-shadow-focus: 0 0 0 3px var(--aicp-color-focus-halo);
+  /* 选中环：卡片/记录选中时的内描边强调 */
+  --aicp-shadow-selected: 0 0 0 1px var(--aicp-color-action-primary) inset;
+  /* 层级体系：从工作区悬浮条到移动端抽屉侧栏逐级递增，避免 z-index 竞争 */
+  --aicp-z-sticky-bar: 20;
+  --aicp-z-sidebar: 30;
+  --aicp-z-dropdown: 40;
+  --aicp-z-mobile-bar: 50;
+  --aicp-z-scrim: 60;
+  --aicp-z-mobile-nav: 70;
+  --aicp-surface-operational: var(--aicp-color-surface);
+
+  --color-canvas: var(--aicp-color-bg-canvas);
+  --color-surface: var(--aicp-color-bg-surface);
+  --color-ink: var(--aicp-color-text-primary);
+  --color-muted: var(--aicp-color-text-secondary);
+  --color-line: var(--aicp-color-border-subtle);
+  --color-primary: var(--aicp-color-action-primary);
+  --color-primary-strong: var(--aicp-color-action-primary-active);
+  --color-approval: var(--aicp-color-status-info);
+  --color-warning: var(--aicp-color-status-warning);
+  --color-risk: var(--aicp-color-status-risk);
+  --color-data: var(--aicp-color-data-slate);
+  --color-soft-green: var(--aicp-color-status-success-bg);
+  --color-soft-amber: var(--aicp-color-status-warning-bg);
+  --color-soft-red: var(--aicp-color-status-risk-bg);
+  --shadow-float: var(--aicp-shadow-elevated);
+  --radius-control: var(--aicp-radius-control);
+  --radius-panel: var(--aicp-radius-surface);
+  --font-body: var(--aicp-font-body);
+  --font-utility: var(--aicp-font-utility);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: var(--color-ink);
+  background: var(--color-canvas);
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--aicp-color-focus-ring);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

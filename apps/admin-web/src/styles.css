@@ -1,0 +1,1435 @@
+/* 管理端全局样式：壳层、侧边栏、工作区容器、通用工具类 */
+
+/* ===== 全局滚动条 =====
+   WebKit（Chrome/Edge/Safari）：细条、透明轨道、浅灰圆角滑块，
+   滑块四周内缩 2px 留白，hover 加深至 border-hover 中性灰。 */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: var(--aicp-color-border-interactive);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--aicp-color-border-hover);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox：scrollbar-width/scrollbar-color 为继承属性，声明在根元素即可全局生效 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--aicp-color-border-interactive) transparent;
+}
+
+.admin-pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.admin-pagination .ant-pagination-item.ant-pagination-item-active,
+.admin-pagination .ant-pagination-item.ant-pagination-item-active:hover {
+  border-color: transparent;
+}
+
+.admin-pagination .ant-pagination-item.ant-pagination-item-active a,
+.admin-pagination .ant-pagination-item.ant-pagination-item-active:hover a {
+  color: var(--aicp-color-action-primary);
+}
+
+@media (max-width: 560px) {
+  .admin-pagination {
+    justify-content: center;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+}
+
+.list-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ===== 工作区头部 ===== */
+.workspace-header {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.workspace-header h1 {
+  margin: 0;
+  color: var(--aicp-color-text-primary);
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: 0;
+  line-height: 1.18;
+}
+
+.workspace-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.workspace-header__actions > span {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.workspace-header__actions > .ant-btn {
+  height: 34px;
+  padding-inline: 10px;
+  border-color: var(--aicp-color-border-interactive);
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: none;
+  font-size: 11px;
+}
+
+.workspace-header__actions > .ant-btn:hover {
+  border-color: var(--aicp-color-border-hover);
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.workspace-header__meta {
+  min-width: 74px;
+  padding-left: 14px;
+  display: grid;
+  gap: 3px;
+  border-left: 0;
+}
+
+.workspace-header__meta span {
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.workspace-header__meta strong {
+  color: var(--aicp-color-text-primary);
+  font-family: var(--aicp-font-data);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 通用工具类 ===== */
+.utility-label,
+.numeric,
+.expiry {
+  font-family: var(--aicp-font-utility);
+  letter-spacing: 0;
+}
+
+.utility-label {
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.numeric {
+  font-size: 12px;
+}
+
+.section-kicker {
+  color: var(--aicp-color-text-tertiary);
+  font-family: var(--aicp-font-utility);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.surface-card {
+  min-width: 0;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-surface-operational);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+/* 错误提示 */
+.form-error {
+  margin: 0;
+  padding: 10px 12px;
+  color: var(--aicp-color-status-risk);
+  background: var(--aicp-color-status-risk-bg);
+  border: 1px solid var(--aicp-color-status-risk);
+  font-size: 13px;
+}
+
+.inline-error {
+  margin: 0 0 18px;
+  padding: 10px 12px;
+  border: 1px solid var(--aicp-color-status-risk);
+  border-radius: var(--aicp-radius-surface);
+  color: var(--aicp-color-status-risk);
+  background: var(--aicp-color-status-risk-bg);
+  font-size: 13px;
+}
+
+/* 原 reference-system.css 并入（Reference-aligned admin system：光画布、白工作面、紧凑蓝操作）。
+   token 统一为 --aicp-*：色彩角色全部由 design-tokens 全局提供（主行动蓝、交互边框、
+   hover 边框均已收敛），本文件只保留管理端壳布局与局部组件样式。 */
+
+:root {
+  --aicp-sidebar-width: 196px;
+  --aicp-sidebar-width-collapsed: 64px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-canvas);
+}
+
+body {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+::selection {
+  color: var(--aicp-color-text-on-accent);
+  background: var(--aicp-color-action-primary-hover);
+}
+
+/* 管理端应用壳：布局与局部组件样式；色彩角色全部由 design-tokens 全局提供，
+   不再在此作用域覆盖（主行动蓝、交互边框与 hover 边框已收敛到 token 层）。 */
+.admin-shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: var(--aicp-sidebar-width) minmax(0, 1fr);
+  --admin-page-padding-inline: 24px;
+  --admin-page-padding-top: 20px;
+  --admin-page-padding-bottom: 32px;
+  --admin-section-gap: 16px;
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-canvas);
+  transition: grid-template-columns 160ms ease;
+}
+
+.admin-shell.is-sidebar-collapsed {
+  grid-template-columns: var(--aicp-sidebar-width-collapsed) minmax(0, 1fr);
+}
+
+.admin-shell button:focus-visible,
+.admin-shell a:focus-visible,
+.admin-shell [tabindex]:focus-visible {
+  outline: 2px solid var(--aicp-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.mobile-admin-bar,
+.sidebar-scrim {
+  display: none;
+}
+
+/* Sidebar */
+.sidebar {
+  position: sticky;
+  top: 0;
+  z-index: var(--aicp-z-sidebar);
+  width: 100%;
+  height: 100dvh;
+  min-height: 0;
+  padding: 0 10px 12px;
+  /* 不能裁剪内容：收起态账号悬浮卡片按设计定位于侧栏右侧（left: calc(100% + 8px)），
+     overflow: hidden 会将其完全裁剪导致悬停不可见；导航区自身的滚动由 .sidebar nav 承担。 */
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-surface);
+}
+
+.admin-brand {
+  height: 64px;
+  min-height: 64px;
+  margin: 0;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: gap 160ms ease;
+}
+
+.brand-mark,
+.admin-brand .brand-mark {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  color: var(--aicp-color-text-on-accent);
+  background: var(--aicp-color-action-primary);
+  border-radius: var(--aicp-radius-surface);
+  box-shadow: 0 1px 2px rgb(59 130 246 / 8%);
+  clip-path: none;
+  font-family: var(--aicp-font-data);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.admin-brand__copy {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  /* 收起态随侧栏宽度过渡收缩到 0（max-width 可过渡，width auto 不行），
+     文字在收缩前淡出，避免瞬间消失/出现的跳动。 */
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 6em;
+  transition:
+    max-width 160ms ease,
+    opacity 120ms ease;
+}
+
+.admin-brand strong {
+  color: var(--aicp-color-text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.admin-brand__copy small {
+  overflow: hidden;
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar nav {
+  min-height: 0;
+  margin: 0 -2px;
+  padding: 10px 2px;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  gap: 2px;
+}
+
+.nav-label {
+  margin: 9px 10px 6px;
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0;
+  white-space: nowrap;
+  /* 收起态分组标题折叠为 0 高并淡出：max-height/margin 过渡与侧栏宽度同步 */
+  overflow: hidden;
+  max-height: 20px;
+  transition:
+    max-height 160ms ease,
+    margin 160ms ease,
+    opacity 120ms ease;
+}
+
+.nav-label--second {
+  margin-top: 18px;
+}
+
+.nav-item,
+.sidebar nav button.nav-item {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  height: 38px;
+  min-height: 38px;
+  padding: 0 10px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: center;
+  gap: 9px;
+  color: var(--aicp-color-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--aicp-radius-control);
+  box-shadow: none;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  transition:
+    color 120ms ease,
+    background-color 120ms ease,
+    /* 收起态文字列从 minmax(0,1fr) 收缩到 0 宽，与侧栏宽度过渡同步 */
+    grid-template-columns 160ms ease,
+    gap 160ms ease;
+}
+
+.nav-item span {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 120ms ease;
+}
+
+.nav-item svg {
+  width: 17px;
+  height: 17px;
+  padding: 0;
+  color: var(--aicp-color-text-tertiary);
+  stroke-width: 1.8;
+}
+
+.nav-item:hover {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.nav-item:hover svg {
+  color: var(--aicp-color-text-primary);
+  transform: none;
+}
+
+.nav-item--active,
+.nav-item--active:hover {
+  color: var(--aicp-color-action-primary);
+  background: var(--aicp-color-bg-selected);
+  font-weight: 600;
+}
+
+.nav-item--active svg,
+.nav-item--active:hover svg {
+  color: var(--aicp-color-action-primary);
+  background: transparent;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: 9px;
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid var(--aicp-color-border-subtle);
+}
+
+.sidebar-toggle,
+.sidebar-account {
+  width: 100%;
+  min-width: 0;
+  color: var(--aicp-color-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--aicp-radius-control);
+}
+
+.sidebar-toggle {
+  height: 34px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: gap 160ms ease;
+}
+
+.sidebar-toggle span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  /* 收起态文字收缩到 0 宽（max-width 可过渡），与侧栏宽度过渡同步 */
+  max-width: 6em;
+  transition:
+    max-width 160ms ease,
+    opacity 120ms ease;
+}
+
+.sidebar-toggle:hover,
+.sidebar-account:hover,
+.sidebar-account-wrap.is-open .sidebar-account {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.sidebar-account-wrap {
+  position: relative;
+}
+
+.sidebar-account {
+  min-height: 44px;
+  padding: 5px 7px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 14px;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  cursor: pointer;
+  /* 收起态文字列与箭头列收缩到 0 宽，与侧栏宽度过渡同步 */
+  transition:
+    grid-template-columns 160ms ease,
+    gap 160ms ease;
+}
+
+.account-avatar {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-selected);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.account-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+  transition: opacity 120ms ease;
+}
+
+.sidebar-account strong,
+.sidebar-account small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-account strong {
+  color: var(--aicp-color-text-primary);
+  font-size: 11px;
+}
+
+.sidebar-account small {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.account-chevron {
+  color: var(--aicp-color-text-tertiary);
+  transition: opacity 120ms ease;
+}
+
+.account-menu {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  z-index: var(--aicp-z-dropdown);
+  width: 100%;
+  padding: 7px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-elevated);
+  transform: translateY(4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease,
+    visibility 120ms ease;
+}
+
+.account-menu.is-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* 浮窗与触发按钮之间的视觉间隙（展开态按钮上方 6px）不属于任何元素，
+   鼠标从按钮移向浮窗时会命中空白并触发 wrap 的 mouseleave，浮窗在鼠标到达前收起；
+   用菜单自身的伪元素把间隙纳入命中区域（透明桥，随浮窗展开才可命中）。 */
+.account-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 6px;
+}
+
+.account-tenant {
+  min-height: 38px;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--aicp-radius-control);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.account-tenant > span {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--aicp-radius-control);
+  color: var(--aicp-color-action-primary);
+  background: var(--aicp-color-bg-selected);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.account-tenant strong {
+  overflow: hidden;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-menu > button {
+  width: 100%;
+  height: 32px;
+  margin-top: 4px;
+  padding: 0 7px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--aicp-color-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--aicp-radius-control);
+  font-size: 11px;
+}
+
+.account-menu > button:hover {
+  color: var(--aicp-color-status-risk);
+  background: var(--aicp-color-status-risk-bg);
+}
+
+.is-sidebar-collapsed .admin-brand,
+.is-sidebar-collapsed .nav-item,
+.is-sidebar-collapsed .sidebar-toggle,
+.is-sidebar-collapsed .sidebar-account {
+  justify-content: center;
+}
+
+.is-sidebar-collapsed .admin-brand {
+  padding-inline: 7px;
+  gap: 0;
+}
+
+/* 收起态文字不参与命中与读屏（visibility 延迟到淡出结束后生效），
+   替代原 display:none 的瞬间消失：opacity 淡出 + 布局（max-width/max-height/grid 列）过渡
+   与侧栏宽度 160ms 过渡同步，展开/收起不再跳动。
+   visibility 延迟写法与收起态 tooltip 保持一致。 */
+.is-sidebar-collapsed .admin-brand__copy,
+.is-sidebar-collapsed .nav-label,
+.is-sidebar-collapsed .nav-item span,
+.is-sidebar-collapsed .sidebar-toggle span,
+.is-sidebar-collapsed .account-copy,
+.is-sidebar-collapsed .account-chevron {
+  opacity: 0;
+  visibility: hidden;
+  /* transition 列表必须覆盖全部动画属性：若只声明 opacity/visibility，
+     会覆盖基础态声明的 max-width/max-height/margin 过渡，导致文字瞬间收缩。 */
+  transition:
+    max-width 160ms ease,
+    max-height 160ms ease,
+    margin 160ms ease,
+    opacity 120ms ease,
+    visibility 0s linear 120ms;
+}
+
+.is-sidebar-collapsed .admin-brand__copy,
+.is-sidebar-collapsed .sidebar-toggle span {
+  max-width: 0;
+}
+
+.is-sidebar-collapsed .nav-label {
+  max-height: 0;
+  margin: 0 10px;
+}
+
+.is-sidebar-collapsed .nav-item {
+  grid-template-columns: 18px minmax(0, 0px);
+  gap: 0;
+}
+
+.is-sidebar-collapsed .sidebar-toggle {
+  gap: 0;
+}
+
+/* 收起态：导航区与导航项允许内容溢出，使悬停 tooltip 可显示在侧栏右侧。
+   收起态导航项只显示图标、数量有限，不会产生需要滚动承接的溢出内容；
+   展开态不受影响（选择器限定在 is-sidebar-collapsed 内）。 */
+.is-sidebar-collapsed .sidebar nav,
+.is-sidebar-collapsed .nav-item {
+  overflow: visible;
+}
+
+/* 收起态悬停 tooltip：复用导航项 data-tooltip 文案（见 shared/shell.tsx），
+   与账号悬浮卡片保持同款 8px 间隙与浮层样式；::after 已被激活指示条占用，
+   故使用 ::before。 */
+.is-sidebar-collapsed .nav-item[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 6px 10px;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  border-radius: var(--aicp-radius-surface);
+  color: #fff;
+  background: #1e293b;
+  box-shadow: var(--aicp-shadow-elevated);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  transition:
+    opacity 120ms ease,
+    visibility 0s linear 120ms;
+}
+
+.is-sidebar-collapsed .nav-item[data-tooltip]:hover::before {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 120ms ease;
+}
+
+.is-sidebar-collapsed .sidebar-footer {
+  /* 收起态下强制轨道不超出侧栏内容宽度：否则轨道会按账号按钮的
+     max-content（30px 头像列 + 0 宽文字/箭头列 + 内边距 ≈ 44px）撑宽，
+     导致展开按钮与账号按钮溢出 64px 侧栏并被裁剪。 */
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.is-sidebar-collapsed .sidebar-account {
+  /* 收起态退化为单列头像轨道：文字列与箭头列 0 宽（随 grid-template-columns 过渡收缩），
+     配合上面的 justify-content: center 实现居中，
+     同时避免隐藏的复制区与箭头列继续撑大按钮 intrinsic 宽度。 */
+  grid-template-columns: 30px minmax(0, 0px) 0px;
+  gap: 0;
+}
+
+.is-sidebar-collapsed .account-menu {
+  left: calc(100% + 8px);
+  bottom: 0;
+  width: 190px;
+}
+
+/* 收起态浮窗在按钮右侧 8px 处，且浮窗高于按钮（向上超出按钮顶部）：
+   桥改为向左覆盖整条 8px 间隙，高度取浮窗全高以覆盖超出部分。 */
+.is-sidebar-collapsed .account-menu::before {
+  left: -8px;
+  right: auto;
+  top: 0;
+  bottom: auto;
+  width: 8px;
+  height: 100%;
+}
+
+.opinion-task-table-wrap {
+  width: 100%;
+  min-width: 0;
+}
+
+.opinion-task-table .ant-table-cell-fix-end {
+  z-index: 2;
+}
+
+/* Workspace and page header */
+.task-workspace,
+.overview-workspace,
+.materials-workspace,
+.assessments-workspace,
+.organization-workspace,
+.task-create-workspace,
+.task-detail-workspace {
+  min-width: 0;
+  height: 100dvh;
+  min-height: 0;
+  padding: var(--admin-page-padding-top) var(--admin-page-padding-inline)
+    var(--admin-page-padding-bottom);
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--aicp-color-bg-canvas);
+}
+
+/* 普通页面由单一纵向节奏承接标题、摘要和主工作面；工作台与编辑器另有全屏例外。 */
+.task-create-workspace,
+.task-detail-workspace {
+  display: flex;
+  flex-direction: column;
+  gap: var(--admin-section-gap);
+}
+
+.task-create-workspace > .operations-header-frame,
+.task-detail-workspace > .operations-header-frame,
+.organization-workspace > .operations-header-frame,
+.organization-workspace > .stats-strip {
+  margin-bottom: 0;
+}
+
+.task-detail-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 12px 0 32px;
+}
+
+.task-detail-header {
+  padding: 4px 0 8px;
+}
+
+.task-detail-section .ant-card-body {
+  padding-top: 16px;
+  padding-bottom: 20px;
+}
+
+.task-detail-filters {
+  margin-bottom: 16px;
+}
+
+.task-detail-table {
+  margin-top: 4px;
+}
+
+.task-detail-table .ant-pagination {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.task-detail-articles .ant-card-body {
+  padding-top: 12px;
+}
+
+.task-detail-article-card {
+  margin-bottom: 4px;
+}
+
+.task-detail-article-card .ant-card-head {
+  min-height: 44px;
+  padding: 12px 20px;
+}
+
+.task-detail-article-card .ant-card-body {
+  padding: 16px 20px 20px;
+}
+
+.task-detail-pagination {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 24px 0 8px;
+}
+
+.task-detail-pagination .ant-pagination {
+  margin: 0;
+}
+
+/* 内容区不设全局宽度上限，子内容撑满容器；需要限宽的页面或内容（如素材页 1240px、
+   工作台对话流 760px）由各自实现，与工作台三栏撑满的布局保持一致。 */
+
+/* antd 控件样式由 @aicp/design-tokens/antd 主题（ConfigProvider）统一管理，
+   不再在此作用域覆盖组件类；仅保留非组件选择器。 */
+.material-status-chip {
+  margin-inline-end: 0;
+  padding: 1px 7px;
+  border-radius: var(--aicp-radius-chip);
+  font-size: 11px;
+  line-height: 20px;
+}
+
+/* Shared white surfaces */
+/* 培训任务页已自带白面定义（tasks.css），不再由共享选择器覆盖。 */
+.operational-toolbar,
+.learning-resources-section,
+.overview-governance,
+.overview-signal-band,
+.overview-workbench,
+.overview-board,
+.accounts-panel,
+.organization-tree,
+.organization-roster {
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-top: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.operational-toolbar {
+  min-height: 56px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+}
+
+.operational-toolbar__filters {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(220px, 420px) 132px;
+  gap: 8px;
+}
+
+.operational-toolbar__filters--content {
+  grid-template-columns: minmax(220px, 420px) max-content;
+  align-items: center;
+}
+
+.learning-resources-section {
+  overflow: hidden;
+}
+
+.accounts-panel-heading,
+.organization-panel-heading,
+.section-heading,
+.overview-band-heading,
+.overview-workbench-recent-heading {
+  min-height: 48px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-surface);
+}
+
+.accounts-panel-heading h2,
+.organization-panel-heading h2,
+.overview-band-heading h2,
+.task-overview__heading h2 {
+  margin: 0;
+  color: var(--aicp-color-text-primary);
+  font-size: 14px;
+  font-weight: 620;
+  line-height: 1.35;
+}
+
+.organization-panel-heading p {
+  margin: 2px 0 0;
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+/* Overview */
+.overview-page-header {
+  min-height: 42px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.overview-intelligence-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.7fr);
+  gap: 14px;
+  margin-bottom: 14px;
+  border: 0;
+}
+
+.overview-intelligence-grid .overview-governance,
+.overview-intelligence-grid .overview-signal-band {
+  margin: 0;
+  overflow: hidden;
+}
+
+.overview-intelligence-grid > * + * {
+  border-left: 1px solid var(--aicp-color-border-subtle);
+}
+
+.overview-governance-heading,
+.overview-band-heading {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-right: 0;
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-surface);
+}
+
+.overview-governance-metrics,
+.overview-metrics,
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  background: var(--aicp-color-bg-surface);
+}
+
+.overview-governance-metrics > div,
+.overview-metrics > article,
+.metric-grid > article {
+  min-height: 88px;
+  padding: 14px;
+  border: 0;
+  border-left: 1px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-surface);
+}
+
+.overview-governance-metrics > div:first-child,
+.overview-metrics > article:first-child,
+.metric-grid > article:first-child {
+  border-left: 0;
+}
+
+.overview-governance-metrics dt,
+.overview-metrics span,
+.metric-grid article > span {
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.overview-governance-metrics dd,
+.overview-metrics strong,
+.metric-grid article > strong {
+  margin: 8px 0 0;
+  color: var(--aicp-color-text-primary);
+  font-family: var(--aicp-font-data);
+  font-size: 24px;
+  font-weight: 650;
+}
+
+.overview-workbench {
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.overview-workbench-start,
+.overview-workbench-recent {
+  background: var(--aicp-color-bg-surface);
+}
+
+.overview-command {
+  border-color: var(--aicp-color-border-interactive);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.overview-board {
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.overview-table-head,
+.overview-results-head,
+.learner-table-head,
+.task-table__head,
+.account-role-table-head {
+  color: var(--aicp-color-text-secondary);
+  background: var(--aicp-color-bg-subtle);
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.overview-table-row,
+.overview-results-row,
+.learner-table-row,
+.task-row,
+.account-role-row {
+  min-height: 44px;
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-surface);
+  font-size: 11px;
+  transition: background-color 120ms ease;
+}
+
+.overview-table-row:hover,
+.overview-results-row:hover,
+.learner-table-row:hover,
+.task-row:hover,
+.account-role-row:hover {
+  background: var(--aicp-color-bg-hover);
+}
+
+/* Organization and accounts */
+.organization-register,
+.accounts-register {
+  margin: 0 0 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.organization-register > div,
+.accounts-register > div {
+  min-height: 78px;
+  padding: 13px 14px;
+  border-left: 1px solid var(--aicp-color-border-subtle);
+}
+
+.organization-register > div:first-child,
+.accounts-register > div:first-child {
+  border-left: 0;
+}
+
+.organization-register dt,
+.accounts-register dt {
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.organization-register dd,
+.accounts-register dd {
+  margin: 7px 0 0;
+  color: var(--aicp-color-text-primary);
+  font-family: var(--aicp-font-data);
+  font-size: 22px;
+  font-weight: 650;
+}
+
+.organization-layout {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  gap: 14px;
+  border: 0;
+  border-top: 0;
+  background: transparent;
+}
+
+.organization-tree,
+.organization-roster,
+.accounts-panel {
+  overflow: hidden;
+}
+
+.department-tree-list {
+  padding: 6px;
+}
+
+.department-tree-row {
+  min-height: 36px;
+  padding: 6px 8px;
+  border-radius: var(--aicp-radius-control);
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.department-tree-row:hover {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.department-tree-row[aria-selected="true"] {
+  color: var(--aicp-color-action-primary);
+  background: var(--aicp-color-bg-selected);
+}
+
+.learner-toolbar,
+.accounts-toolbar {
+  min-height: 52px;
+  margin-bottom: 14px;
+  padding: 9px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-top: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.organization-roster .learner-toolbar {
+  margin: 0;
+  border-width: 0 0 1px;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.learner-table,
+.account-role-list {
+  overflow-x: auto;
+}
+
+/* Materials card grid */
+.materials-view--grid {
+  display: grid;
+  gap: 12px;
+}
+
+.materials-batch-bar {
+  border-color: var(--aicp-color-border-hover);
+  border-radius: var(--aicp-radius-surface);
+  box-shadow: var(--aicp-shadow-overlay);
+}
+
+/* 统计条（.stats-strip/.stat-chip*）已迁移至 shared/stats-strip.css（StatsStrip 组件） */
+.assessments-workspace > .operational-toolbar {
+  margin-bottom: 14px;
+  border-top: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.assessments-workspace .assessment-list-panel {
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-top: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+/* Empty and loading states */
+.empty-state,
+.overview-empty,
+.overview-workbench-empty,
+.accounts-empty {
+  min-height: 240px;
+  padding: 44px 20px;
+  display: grid;
+  place-content: center;
+  color: var(--aicp-color-text-tertiary);
+  background: var(--aicp-color-bg-surface);
+}
+
+.materials-loading,
+.loading-line {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  color: var(--aicp-color-text-secondary);
+  background: var(--aicp-color-bg-surface);
+}
+
+@media (max-width: 960px) {
+  .overview-intelligence-grid,
+  .organization-layout,
+  #tasks .task-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-intelligence-grid > * + * {
+    border-left: 1px solid var(--aicp-color-border-subtle);
+  }
+
+  .operational-toolbar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 800px) {
+  .admin-shell,
+  .admin-shell.is-sidebar-collapsed {
+    min-height: 100dvh;
+    display: block;
+  }
+
+  .mobile-admin-bar {
+    position: sticky;
+    top: 0;
+    z-index: var(--aicp-z-mobile-bar);
+    height: 54px;
+    padding: 0 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--aicp-color-border-subtle);
+    background: rgb(255 255 255 / 96%);
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-admin-bar .admin-brand {
+    height: 54px;
+    min-height: 54px;
+    padding: 0;
+  }
+
+  .mobile-admin-bar > button {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: var(--aicp-color-text-secondary);
+    background: var(--aicp-color-bg-surface);
+    border: 1px solid var(--aicp-color-border-interactive);
+    border-radius: var(--aicp-radius-control);
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: var(--aicp-z-mobile-nav);
+    width: min(270px, calc(100vw - 44px));
+    height: 100dvh;
+    transform: translateX(-102%);
+    transition: transform 180ms ease;
+  }
+
+  .sidebar.is-mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: var(--aicp-z-scrim);
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    background: rgb(15 23 42 / 34%);
+    border: 0;
+    transition:
+      opacity 160ms ease,
+      visibility 160ms ease;
+  }
+
+  .sidebar-scrim.is-visible {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .task-workspace,
+  .overview-workspace,
+  .materials-workspace,
+  .assessments-workspace,
+  .organization-workspace,
+  .task-create-workspace,
+  .task-detail-workspace {
+    width: 100%;
+    height: auto;
+    min-height: calc(100dvh - 54px);
+    padding: 16px 14px 36px;
+    overflow: visible;
+  }
+
+  .overview-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .overview-page-header h1 {
+    font-size: 20px;
+  }
+
+  .overview-header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .organization-register,
+  .accounts-register,
+  .overview-governance-metrics,
+  .overview-metrics,
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .organization-register > div:nth-child(3),
+  .accounts-register > div:nth-child(3),
+  .overview-governance-metrics > div:nth-child(3),
+  .overview-metrics > article:nth-child(3),
+  .metric-grid > article:nth-child(3) {
+    border-left: 0;
+  }
+
+  .organization-register > div:nth-child(n + 3),
+  .accounts-register > div:nth-child(n + 3),
+  .overview-governance-metrics > div:nth-child(n + 3),
+  .overview-metrics > article:nth-child(n + 3),
+  .metric-grid > article:nth-child(n + 3) {
+    border-top: 1px solid var(--aicp-color-border-subtle);
+  }
+
+  .operational-toolbar__filters,
+  .operational-toolbar__filters--content {
+    grid-template-columns: 1fr;
+  }
+
+  .assessment-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .learner-toolbar,
+  .accounts-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 560px) {
+  .overview-governance-metrics > div,
+  .overview-metrics > article,
+  .metric-grid > article,
+  .organization-register > div,
+  .accounts-register > div {
+    min-height: 74px;
+    padding: 12px;
+  }
+
+  .overview-governance-metrics dd,
+  .overview-metrics strong,
+  .metric-grid article > strong,
+  .organization-register dd,
+  .accounts-register dd {
+    font-size: 20px;
+  }
+
+  .learning-resource-list > .list-row,
+  .assessment-object-list > .list-row,
+  .roleplay-scenario-list > .list-row {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  #tasks .section-heading {
+    align-items: stretch;
+  }
+
+  #tasks .task-list-filters {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+  }
+
+  #tasks .task-list-filters .ant-input-search {
+    width: 100%;
+    grid-column: 1 / -1;
+  }
+
+  #tasks .task-list-filters .ant-segmented {
+    min-width: 0;
+    overflow-x: auto;
+  }
+}
+
+/* 深链定位高亮：?task=/?material= 等跳转后目标行短暂高亮，约 2.4s 淡出 */
+.is-located {
+  animation: aicp-locate-pulse 2.4s ease-out;
+}
+
+@keyframes aicp-locate-pulse {
+  0%,
+  30% {
+    background-color: color-mix(in srgb, var(--aicp-color-action-primary) 12%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* antd Table 行：tr 背景被 td 遮住，高亮定位到 td（题库/试卷等台账页复用 .is-located 语义） */
+.is-located td {
+  animation: aicp-locate-pulse 2.4s ease-out;
+}

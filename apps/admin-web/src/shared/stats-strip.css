@@ -1,0 +1,233 @@
+/* StatsStrip：与运营概览指标卡同一套网格，不再使用 48px 横条。 */
+
+.stats-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 0 0 16px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.stat-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  min-width: 0;
+  height: auto;
+  padding: 16px 18px;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s,
+    transform 0.15s;
+}
+
+.stat-chip:first-child,
+.stat-chip:last-child {
+  padding: 16px 18px;
+}
+
+.stat-chip:hover {
+  border-color: var(--aicp-color-border-interactive);
+  box-shadow: var(--aicp-shadow-surface);
+  transform: translateY(-1px);
+}
+
+.stat-chip:focus-visible {
+  outline: 2px solid var(--aicp-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.stat-chip-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 24px;
+}
+
+.stat-chip-icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-status-neutral-bg);
+}
+
+.stat-chip-icon--blue {
+  background: var(--aicp-color-status-info-bg);
+  color: var(--aicp-color-action-primary);
+}
+
+.stat-chip-icon--green {
+  background: var(--aicp-color-status-success-bg);
+  color: var(--aicp-color-status-success);
+}
+
+.stat-chip-icon--risk {
+  background: var(--aicp-color-status-risk-bg);
+  color: var(--aicp-color-status-risk);
+}
+
+.stat-chip-icon--warning {
+  background: var(--aicp-color-status-warning-bg);
+  color: var(--aicp-color-status-warning);
+}
+
+.stat-chip-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--aicp-color-text-secondary);
+}
+
+.stat-chip-value {
+  display: flex;
+  align-items: baseline;
+  margin-top: 2px;
+  font-family: var(--aicp-font-data);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--aicp-color-text-primary);
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+
+.stat-chip-value--risk {
+  color: var(--aicp-color-status-risk);
+}
+
+.stat-chip-value--warning {
+  color: var(--aicp-color-status-warning);
+}
+
+.stat-chip-value small {
+  margin-left: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--aicp-color-text-secondary);
+}
+
+/* 试卷预览等把状态 Tag 放进 value：不要继承 28px 数据字号 */
+.stat-chip-value .ant-tag {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.stat-chip-hint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--aicp-color-text-secondary);
+}
+
+a.stat-chip {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* 小指标卡：全高工作面用，桌面尽量单行排开，不沿用默认卡的 200px 下限。 */
+.stats-strip--compact {
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.stats-strip--compact .stat-chip,
+.stats-strip--compact .stat-chip:first-child,
+.stats-strip--compact .stat-chip:last-child {
+  gap: 4px;
+  padding: 10px 12px;
+}
+
+.stats-strip--compact .stat-chip:hover {
+  transform: none;
+}
+
+.stats-strip--compact .stat-chip-head {
+  min-height: 22px;
+}
+
+.stats-strip--compact .stat-chip-icon {
+  width: 22px;
+  height: 22px;
+}
+
+.stats-strip--compact .stat-chip-label {
+  font-size: 11px;
+}
+
+.stats-strip--compact .stat-chip-value {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+.stats-strip--compact .stat-chip-value small {
+  font-size: 11px;
+}
+
+.stats-strip--compact .stat-chip-hint {
+  font-size: 10px;
+}
+
+@media (max-width: 1180px) {
+  .stats-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-strip--compact {
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .stats-strip {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .stats-strip--compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stats-strip--compact .stat-chip:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .stat-chip,
+  .stat-chip:first-child,
+  .stat-chip:last-child {
+    padding: 12px;
+  }
+
+  .stats-strip--compact .stat-chip,
+  .stats-strip--compact .stat-chip:first-child,
+  .stats-strip--compact .stat-chip:last-child {
+    padding: 10px 12px;
+  }
+
+  .stat-chip-value {
+    font-size: 24px;
+  }
+
+  .stats-strip--compact .stat-chip-value {
+    font-size: 20px;
+  }
+
+  .stat-chip-hint {
+    font-size: 10px;
+  }
+}

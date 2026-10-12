@@ -1,0 +1,131 @@
+/**
+ * 管理端 Canon 覆盖层：浅色紧凑运营后台，工艺对标 Stripe Dashboard、
+ * 飞书管理后台与 Ant Design Pro。只覆盖 .admin-shell 作用域，不改共享
+ * design-tokens 原语，避免运营端与平台控制台被连带换肤。
+ *
+ * 画布与分隔用中性浅灰，不带冷蓝底；蓝色只留给操作、选中和焦点。
+ */
+.admin-shell,
+.mobile-admin-bar {
+  --aicp-color-canvas: #f7f7f7;
+  --aicp-color-bg-canvas: #f7f7f7;
+  --aicp-color-workspace: #f7f7f7;
+  --aicp-color-border-subtle: #ececec;
+  --aicp-color-border-interactive: #e3e3e3;
+  --aicp-color-bg-hover: #f8f8f8;
+  --aicp-color-bg-subtle: #fafafa;
+  --aicp-color-status-neutral-bg: #f4f4f4;
+  --aicp-color-text-primary: #171717;
+  --aicp-color-text-secondary: #5f5f5f;
+  --aicp-color-text-tertiary: #737373;
+  --aicp-color-text-placeholder: #b3b3b3;
+  --aicp-shadow-surface: 0 1px 2px rgb(0 0 0 / 2.5%);
+}
+
+.admin-shell .sidebar {
+  border-right: 1px solid var(--aicp-color-border-subtle);
+}
+
+.admin-shell input::placeholder,
+.admin-shell textarea::placeholder {
+  color: var(--aicp-color-text-placeholder);
+}
+
+/* 圆形只用于头像；图标按钮 hover 使用控件 5px 圆角，不要胶囊/正圆底 */
+.admin-shell .ant-btn-circle,
+.mobile-admin-bar .ant-btn-circle {
+  border-radius: var(--aicp-radius-control);
+}
+
+/* text / 图标按钮 hover 用中性浅灰，不用主题淡蓝底 */
+.admin-shell .ant-btn-text:not(:disabled):not(.ant-btn-dangerous):hover,
+.admin-shell .ant-btn-text:not(:disabled):not(.ant-btn-dangerous):focus-visible,
+.mobile-admin-bar .ant-btn-text:not(:disabled):not(.ant-btn-dangerous):hover {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+/* 管理端所有 Ant Table 共用一套台账工艺：表头 36px / 11px，单元格 14px 水平内边距，
+   small 尺寸不另开密度；首尾列与固定列也不另开 padding。 */
+.admin-shell .ant-table-thead > tr > th,
+.admin-shell .ant-table.ant-table-small .ant-table-thead > tr > th {
+  height: 36px;
+  padding-block: 8px;
+  padding-inline: 14px;
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  white-space: nowrap;
+  background: var(--aicp-color-bg-subtle);
+  border-bottom-color: var(--aicp-color-border-subtle);
+}
+
+.admin-shell .ant-table-tbody > tr > td,
+.admin-shell .ant-table.ant-table-small .ant-table-tbody > tr > td {
+  padding-block: 10px;
+  padding-inline: 14px;
+  vertical-align: middle;
+  font-size: 13px;
+  color: var(--aicp-color-text-primary);
+  border-bottom-color: var(--aicp-color-border-subtle);
+}
+
+.admin-shell .ant-table-thead > tr > th:first-child,
+.admin-shell .ant-table-tbody > tr > td:first-child,
+.admin-shell .ant-table-cell-fix-start {
+  padding-inline-start: 14px;
+}
+
+.admin-shell .ant-table-thead > tr > th:last-child,
+.admin-shell .ant-table-tbody > tr > td:last-child,
+.admin-shell .ant-table-cell-fix-end {
+  padding-inline-end: 14px;
+}
+
+.admin-shell .ant-table-cell-fix-start,
+.admin-shell .ant-table-cell-fix-end {
+  background: var(--aicp-color-bg-surface);
+}
+
+.admin-shell .ant-table-thead > tr > th.ant-table-cell-fix-start,
+.admin-shell .ant-table-thead > tr > th.ant-table-cell-fix-end {
+  background: var(--aicp-color-bg-subtle);
+}
+
+.admin-shell .ant-table-tbody > tr:hover > td,
+.admin-shell .ant-table-tbody > tr:hover > td.ant-table-cell-fix-start,
+.admin-shell .ant-table-tbody > tr:hover > td.ant-table-cell-fix-end,
+.admin-shell .ant-table-tbody > tr:focus-visible > td {
+  background: var(--aicp-color-bg-hover);
+}
+
+/* antd 在 scroll.y 时会在表头末尾插入滚动条占位列。管理端滚动条是 thin，
+   名册还把 overflow-y 改成 auto，占位列经常空着，看起来像操作列后再多一列。 */
+.admin-shell .ant-table-cell-scrollbar {
+  display: none;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden;
+  box-shadow: none !important;
+}
+
+.admin-shell .ant-table-thead > tr > th:has(+ .ant-table-cell-scrollbar)::before {
+  display: none;
+}
+
+.admin-shell .ant-table-body {
+  overflow-y: auto !important;
+}
+
+.admin-shell .ant-table-tbody > tr:last-child > td {
+  border-bottom: 0;
+}
+
+.admin-shell .ant-table-tbody > tr:focus-visible {
+  outline: 2px solid var(--aicp-color-focus-ring);
+  outline-offset: -2px;
+}

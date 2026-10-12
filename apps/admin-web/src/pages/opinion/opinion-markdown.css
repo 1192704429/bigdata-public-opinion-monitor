@@ -1,0 +1,122 @@
+.opinion-markdown {
+  color: var(--aicp-color-text-primary);
+  font-size: 14px;
+  line-height: 1.75;
+  word-break: break-word;
+}
+
+.opinion-markdown > :first-child {
+  margin-top: 0;
+}
+
+.opinion-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.opinion-markdown h1,
+.opinion-markdown h2,
+.opinion-markdown h3,
+.opinion-markdown h4 {
+  margin: 1.25em 0 0.6em;
+  color: var(--aicp-color-text-primary);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.opinion-markdown h1 {
+  font-size: 1.35em;
+}
+
+.opinion-markdown h2 {
+  font-size: 1.2em;
+}
+
+.opinion-markdown h3 {
+  font-size: 1.08em;
+}
+
+.opinion-markdown h4 {
+  font-size: 1em;
+}
+
+.opinion-markdown p,
+.opinion-markdown ul,
+.opinion-markdown ol,
+.opinion-markdown blockquote,
+.opinion-markdown pre,
+.opinion-markdown table {
+  margin: 0.75em 0;
+}
+
+.opinion-markdown ul,
+.opinion-markdown ol {
+  padding-left: 1.5em;
+}
+
+.opinion-markdown li + li {
+  margin-top: 0.35em;
+}
+
+.opinion-markdown blockquote {
+  padding: 0.5em 1em;
+  border-left: 3px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-subtle);
+  color: var(--aicp-color-text-secondary);
+}
+
+.opinion-markdown code {
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--aicp-color-bg-subtle);
+  font-family: var(--aicp-font-family-mono, ui-monospace, monospace);
+  font-size: 0.92em;
+}
+
+.opinion-markdown pre {
+  padding: 12px 14px;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--aicp-color-bg-subtle);
+}
+
+.opinion-markdown pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.opinion-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.opinion-markdown th,
+.opinion-markdown td {
+  padding: 8px 10px;
+  border: 1px solid var(--aicp-color-border-subtle);
+  text-align: left;
+}
+
+.opinion-markdown th {
+  background: var(--aicp-color-bg-subtle);
+  font-weight: 600;
+}
+
+.opinion-markdown hr {
+  margin: 1.25em 0;
+  border: 0;
+  border-top: 1px solid var(--aicp-color-border-subtle);
+}
+
+.opinion-markdown a {
+  color: var(--aicp-color-primary, #1677ff);
+  text-decoration: none;
+}
+
+.opinion-markdown a:hover {
+  text-decoration: underline;
+}
+
+.opinion-markdown strong {
+  font-weight: 600;
+}

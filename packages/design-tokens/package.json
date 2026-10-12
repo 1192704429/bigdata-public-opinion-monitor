@@ -1,0 +1,13 @@
+{
+  "name": "@aicp/design-tokens",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tokens": "./src/tokens.ts",
+    "./antd": "./src/antd.ts",
+    "./tokens.css": "./src/tokens.css"
+  },
+  "peerDependencies": {
+    "antd": "^6.5.2"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+apps/*/node_modules/
+apps/*/dist/
+packages/*/node_modules/

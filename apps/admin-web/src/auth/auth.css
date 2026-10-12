@@ -1,0 +1,479 @@
+/* 管理端认证壳层：单一居中认证卡承载完整流程，动态路由只存在于页面背景。 */
+
+.auth-page,
+.login-page {
+  min-height: 100svh;
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-canvas);
+}
+
+.auth-page {
+  position: relative;
+  overflow: hidden auto;
+  isolation: isolate;
+}
+
+.auth-scene {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.auth-scene::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  /* 认证场景氛围渐变：基于画布与分隔线 token 叠加透明度，不引入体系外硬编码色 */
+  background: linear-gradient(
+    118deg,
+    color-mix(in srgb, var(--aicp-color-bg-canvas) 18%, transparent) 0%,
+    color-mix(in srgb, var(--aicp-color-bg-canvas) 78%, transparent) 48%,
+    color-mix(in srgb, var(--aicp-color-border-subtle) 28%, transparent) 100%
+  );
+}
+
+.auth-particles {
+  position: absolute;
+  inset: 0;
+}
+
+.auth-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: currentColor;
+  color: var(--aicp-color-action-primary);
+  opacity: 0.4;
+  /* 漂浮动画只移动位置，状态切换经 opacity/color 过渡，不打断粒子流 */
+  animation: auth-particle-drift var(--particle-duration) ease-in-out var(--particle-delay) infinite
+    alternate;
+  transition:
+    color 420ms ease,
+    opacity 420ms ease;
+}
+
+/* 认证处理中的快速粒子层：默认隐藏，pending 时淡入并沿固定方向流动 */
+.auth-particle--flow {
+  opacity: 0;
+  color: var(--aicp-color-status-progress);
+  animation: auth-particle-flow var(--particle-duration) linear var(--particle-delay) infinite;
+}
+
+/* 认证处理中：慢层粒子淡出，快速粒子层定向流动，整体节奏加快 */
+.auth-page[data-auth-state="pending"] .auth-particle {
+  opacity: 0;
+}
+
+.auth-page[data-auth-state="pending"] .auth-particle--flow {
+  opacity: 0.55;
+}
+
+/* 认证成功：粒子定驻为学习绿，快速层退出 */
+.auth-page[data-auth-state="success"] .auth-particle {
+  opacity: 0.75;
+  color: var(--aicp-color-status-success);
+}
+
+.auth-page[data-auth-state="success"] .auth-particle--flow {
+  opacity: 0;
+}
+
+/* 认证失败：粒子停止流动并转为风险色 */
+.auth-page[data-auth-state="error"] .auth-particle {
+  opacity: 0.2;
+  color: var(--aicp-color-status-risk);
+  animation-play-state: paused;
+}
+
+.auth-page[data-auth-state="error"] .auth-particle--flow {
+  opacity: 0;
+}
+
+/* 账户安全（改密）：粒子转为青绿基调，保持漂浮 */
+.auth-page[data-auth-state="secure"] .auth-particle {
+  opacity: 0.45;
+  color: var(--aicp-color-status-progress);
+}
+
+.auth-page[data-auth-state="secure"] .auth-particle--flow {
+  opacity: 0;
+}
+
+/* 慢层粒子在邻域内往复漂浮 */
+@keyframes auth-particle-drift {
+  to {
+    transform: translate(var(--particle-dx), var(--particle-dy));
+  }
+}
+
+/* 快速层粒子沿固定方向流动（向上漂移），认证处理中的节奏表达 */
+@keyframes auth-particle-flow {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(var(--particle-dx), var(--particle-dy));
+  }
+}
+
+.auth-page-header {
+  position: absolute;
+  top: 28px;
+  left: 36px;
+  z-index: 3;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.auth-brand__mark {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: var(--aicp-color-text-on-accent);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-action-primary);
+  box-shadow: var(--aicp-shadow-action);
+  font-family: var(--aicp-font-data);
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.auth-brand > span:last-child,
+.auth-brand strong,
+.auth-brand small {
+  display: block;
+}
+
+.auth-brand strong {
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.auth-brand small {
+  margin-top: 3px;
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.auth-centered-stage {
+  min-height: 100svh;
+  padding: 94px 24px 62px;
+  display: grid;
+  place-items: center;
+}
+
+.auth-card {
+  width: min(500px, 100%);
+  overflow: hidden;
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-card);
+}
+
+.auth-action-content {
+  padding: 30px 34px 28px;
+}
+
+.auth-action-header {
+  margin-bottom: 28px;
+}
+
+.auth-state-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 20px;
+  display: grid;
+  place-items: center;
+  color: var(--aicp-color-action-primary);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-status-info-bg);
+}
+
+.auth-state-icon--secure {
+  color: var(--aicp-color-status-progress);
+  background: var(--aicp-color-status-progress-bg);
+}
+
+.auth-state-icon--error {
+  color: var(--aicp-color-status-risk);
+  background: var(--aicp-color-status-risk-bg);
+}
+
+.auth-action-header h1 {
+  margin: 0 0 9px;
+  font-size: 22px;
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: 0;
+}
+
+.auth-action-header p {
+  margin: 0;
+  color: var(--aicp-color-text-secondary);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.auth-inline-error {
+  min-height: 46px;
+  margin-bottom: 20px;
+  padding: 11px 12px;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  color: var(--aicp-color-status-risk);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-status-risk-bg);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.auth-inline-error svg {
+  margin-top: 1px;
+}
+
+.auth-form {
+  width: 100%;
+}
+
+.auth-form .ant-form-item {
+  margin-bottom: 17px;
+}
+
+.auth-form .ant-form-item-label {
+  padding-bottom: 7px;
+}
+
+.auth-form .ant-form-item-label > label {
+  height: auto;
+  color: var(--aicp-color-text-primary);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.auth-form .ant-input,
+.auth-form .ant-input-affix-wrapper {
+  min-height: 48px;
+  color: var(--aicp-color-text-primary);
+  border-color: var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-subtle);
+  box-shadow: none;
+  font-size: 14px;
+}
+
+.auth-form .ant-input-affix-wrapper {
+  padding-inline: 14px;
+}
+
+.auth-form .ant-input-affix-wrapper > .ant-input {
+  min-height: auto;
+  background: transparent;
+}
+
+.auth-form .ant-input-prefix {
+  margin-inline-end: 10px;
+  color: var(--aicp-color-text-tertiary);
+}
+
+.auth-form .ant-input:hover,
+.auth-form .ant-input-affix-wrapper:hover {
+  border-color: var(--aicp-color-border-interactive);
+  background: var(--aicp-color-bg-surface);
+}
+
+.auth-form .ant-input:focus,
+.auth-form .ant-input-affix-wrapper-focused {
+  border-color: var(--aicp-color-action-primary);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-focus);
+}
+
+.auth-form .ant-input::placeholder {
+  color: var(--aicp-color-text-secondary);
+}
+
+.auth-form .ant-form-item-has-error .ant-input,
+.auth-form .ant-form-item-has-error .ant-input-affix-wrapper {
+  border-color: var(--aicp-color-status-risk);
+}
+
+.auth-form .ant-form-item-explain-error {
+  padding-top: 3px;
+  font-size: 11px;
+}
+
+.auth-form .ant-input-password-icon {
+  width: 32px;
+  height: 32px;
+  margin: -8px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.auth-form .auth-password-field {
+  margin-bottom: 8px;
+}
+
+.auth-recovery-note {
+  margin: 0 0 24px;
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.auth-form .auth-submit-field {
+  margin: 8px 0 0;
+}
+
+.auth-submit-field .ant-btn-primary {
+  min-height: 48px;
+  border: 0;
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-action-primary);
+  box-shadow: var(--aicp-shadow-action);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.auth-submit-field .ant-btn-primary:hover {
+  background: var(--aicp-color-action-primary-hover);
+}
+
+.auth-submit-field .ant-btn-primary:active {
+  background: var(--aicp-color-action-primary-active);
+}
+
+.auth-submit-field .ant-btn-primary:focus-visible,
+.auth-card .ant-btn:focus-visible {
+  outline: 2px solid var(--aicp-color-focus-ring);
+  outline-offset: 2px;
+}
+
+.auth-submit-field .ant-btn > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.auth-denied-action {
+  min-width: 160px;
+  min-height: 44px;
+  margin-top: 4px;
+  border-radius: var(--aicp-radius-surface);
+}
+
+.auth-page-footer {
+  position: absolute;
+  right: 36px;
+  bottom: 26px;
+  z-index: 3;
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+@media (max-width: 620px) {
+  .auth-page {
+    overflow-y: auto;
+  }
+
+  .auth-scene {
+    position: absolute;
+  }
+
+  /* 移动端减少粒子数量，控制合成层开销：慢层保留前 18 个，快速层保留前 6 个 */
+  .auth-particle:not(.auth-particle--flow):nth-child(n + 19) {
+    display: none;
+  }
+
+  .auth-particle--flow:nth-child(n + 35) {
+    display: none;
+  }
+
+  .auth-page-header {
+    position: relative;
+    top: auto;
+    left: auto;
+    padding: max(20px, env(safe-area-inset-top)) 20px 10px;
+  }
+
+  .auth-brand__mark {
+    width: 38px;
+    height: 38px;
+  }
+
+  .auth-brand strong {
+    font-size: 16px;
+  }
+
+  .auth-centered-stage {
+    min-height: auto;
+    padding: 10px 14px 32px;
+    place-items: start center;
+  }
+
+  .auth-card {
+    border-radius: var(--aicp-radius-surface);
+  }
+
+  .auth-action-content {
+    padding: 26px 22px 24px;
+  }
+
+  .auth-action-header {
+    margin-bottom: 24px;
+  }
+
+  .auth-state-icon {
+    margin-bottom: 16px;
+  }
+
+  .auth-action-header h1 {
+    font-size: 20px;
+  }
+
+  .auth-page-footer {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    padding: 0 20px max(24px, env(safe-area-inset-bottom));
+    text-align: center;
+  }
+}
+
+@media (min-width: 621px) and (max-height: 760px) {
+  .auth-centered-stage {
+    padding-top: 88px;
+    place-items: start center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-particle,
+  .auth-particle--flow {
+    animation: none !important;
+  }
+
+  /* 减少动态下粒子保持静态同构图景，快速层隐藏 */
+  .auth-particle {
+    opacity: 0.5;
+  }
+
+  .auth-particle--flow {
+    opacity: 0;
+  }
+
+  .auth-page[data-auth-state="error"] .auth-particle {
+    opacity: 0.2;
+  }
+}

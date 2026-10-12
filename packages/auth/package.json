@@ -1,0 +1,12 @@
+{
+  "name": "@aicp/auth",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./portal-routing": "./src/portal-routing.ts"
+  },
+  "dependencies": {
+    "@aicp/contracts": "workspace:*"
+  }
+}

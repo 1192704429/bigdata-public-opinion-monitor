@@ -1,0 +1,218 @@
+/* 账号权限：摘要带、筛选工具栏、账号台账与右侧授权抽屉。 */
+.accounts-register {
+  margin: 0 0 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.accounts-register > div {
+  min-height: 78px;
+  padding: 13px 14px;
+}
+
+.accounts-register > div + div {
+  border-left: 1px solid var(--aicp-color-border-subtle);
+}
+
+.accounts-register dt,
+.accounts-register small {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.accounts-register dd {
+  margin: 7px 0 1px;
+  color: var(--aicp-color-text-primary);
+  font-family: var(--aicp-font-data);
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.accounts-register [data-tone="risk"] dd {
+  color: var(--aicp-color-status-risk);
+}
+
+.accounts-toolbar {
+  min-height: 52px;
+  margin: 0;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-bottom: 0;
+  border-radius: var(--aicp-radius-surface) var(--aicp-radius-surface) 0 0;
+  background: var(--aicp-color-bg-surface);
+}
+
+.accounts-toolbar > span {
+  margin-left: auto;
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.accounts-panel {
+  overflow: hidden;
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: 0 0 var(--aicp-radius-surface) var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-surface);
+  box-shadow: var(--aicp-shadow-surface);
+}
+
+.accounts-panel-heading {
+  min-height: 48px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+}
+
+.accounts-panel-heading h2 {
+  margin: 0;
+  color: var(--aicp-color-text-primary);
+  font-size: 14px;
+  font-weight: 620;
+}
+
+.accounts-panel-heading small {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.account-role-identity {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.account-role-identity strong,
+.account-role-identity small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-role-identity strong {
+  color: var(--aicp-color-text-primary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.account-role-identity small,
+.account-role-none {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.account-role-identity__meta,
+.account-role-mobile-primary-action {
+  display: none;
+}
+
+.account-role-meta {
+  color: var(--aicp-color-text-secondary);
+  font-size: 11px;
+}
+
+.account-role-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.account-role-tags .ant-tag {
+  margin: 0;
+}
+
+.account-role-drawer {
+  display: grid;
+  gap: 24px;
+}
+
+.account-role-drawer__identity {
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+  border-radius: var(--aicp-radius-surface);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.account-role-drawer__identity span {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+}
+
+.account-role-drawer__identity strong {
+  color: var(--aicp-color-text-primary);
+  font-size: 13px;
+}
+
+.account-role-drawer .ant-checkbox-group {
+  display: grid;
+  gap: 10px;
+}
+
+.account-role-drawer .ant-select {
+  width: 100%;
+}
+
+.account-role-drawer__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+@media (max-width: 800px) {
+  .accounts-register {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .accounts-register > div:nth-child(3) {
+    border-left: 0;
+  }
+
+  .accounts-register > div:nth-child(n + 3) {
+    border-top: 1px solid var(--aicp-color-border-subtle);
+  }
+
+  .accounts-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .accounts-toolbar > span {
+    margin-left: 0;
+  }
+
+  .account-role-table .ant-table-cell-fix-end .ant-btn {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .account-role-identity__meta {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .account-role-mobile-primary-action {
+    display: inline-flex;
+    min-height: 32px;
+    margin-top: 2px;
+    padding-inline: 0;
+    align-items: center;
+  }
+
+  .account-role-table .ant-table-tbody > tr > td {
+    height: 76px;
+  }
+}

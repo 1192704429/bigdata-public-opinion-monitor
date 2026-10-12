@@ -1,0 +1,104 @@
+.ledger-section {
+  display: flex;
+  flex-direction: column;
+  background: var(--aicp-color-bg-surface);
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: 6px;
+  box-shadow: var(--aicp-shadow-surface);
+  overflow: hidden;
+}
+
+/* flat 变体：用于网格卡片矩阵模式，消除外层卡片框嵌套，让工具栏、卡片和分页直接自然平铺 */
+.ledger-section--flat {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  gap: 16px;
+}
+
+.ledger-section--flat > .ledger-section__toolbar {
+  background: var(--aicp-color-bg-surface);
+  border: 1px solid var(--aicp-color-border-subtle);
+  border-radius: 6px;
+  box-shadow: var(--aicp-shadow-sm);
+}
+
+.ledger-section--flat > .ledger-section__footer {
+  background: transparent;
+  border-top: none;
+  padding: 8px 0;
+}
+
+.ledger-section__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--aicp-color-border-subtle);
+  background: var(--aicp-color-bg-surface);
+  min-height: 48px;
+}
+
+.ledger-section__toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.ledger-section__toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ledger-section__content {
+  min-width: 0;
+  width: 100%;
+}
+
+/* 表格不贴卡片外沿：工具栏与分页之间留白，无描边圆角 */
+.ledger-section:not(.ledger-section--flat) > .ledger-section__content {
+  padding: 12px 16px 16px;
+}
+
+.ledger-section__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px 16px;
+  background: var(--aicp-color-bg-surface);
+}
+
+.ledger-section__footer:not(:has(.ant-pagination)) {
+  display: none;
+}
+
+.ledger-section__footer > .admin-pagination {
+  width: 100%;
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  .ledger-section__toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .ledger-section__toolbar-left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ledger-section__toolbar-right {
+    justify-content: flex-end;
+  }
+}

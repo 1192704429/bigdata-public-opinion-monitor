@@ -1,0 +1,141 @@
+/* 台账行内容：身份两行 + 状态标签 + 风险/下一动作 + 数字。
+   扫描顺序固定，避免名称、状态和操作抢同一视觉层级。 */
+
+.ledger-identity {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.ledger-identity strong,
+.ledger-identity small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-identity strong {
+  color: var(--aicp-color-text-primary);
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+}
+
+.ledger-identity.is-disabled strong {
+  color: var(--aicp-color-text-tertiary);
+}
+
+.ledger-identity small {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.ledger-section .ant-tag {
+  margin-inline-end: 0;
+}
+
+.ledger-metric {
+  color: var(--aicp-color-text-primary);
+  font-family: var(--aicp-font-data);
+  font-size: 13px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums lining-nums;
+  white-space: nowrap;
+}
+
+.ledger-metric small {
+  margin-left: 2px;
+  color: var(--aicp-color-text-tertiary);
+  font-family: var(--aicp-font-body);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.ledger-next {
+  color: var(--aicp-color-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ledger-next.is-attention {
+  color: var(--aicp-color-status-warning);
+}
+
+.ledger-risk {
+  color: var(--aicp-color-status-warning);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.ledger-empty {
+  color: var(--aicp-color-text-tertiary);
+  font-size: 12px;
+}
+
+.ledger-ops {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  flex-wrap: nowrap;
+}
+
+.ledger-ops--row {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.ledger-ops--card {
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* 卡片 overflow:hidden，不能用负边距对齐；去掉第一颗按钮左内边距，文案与正文左缘齐。 */
+.ledger-ops--card > .ledger-ops__action.ant-btn-text:first-child {
+  padding-inline-start: 0;
+}
+
+.ledger-ops__action.ant-btn-text {
+  height: 24px;
+  padding: 0 4px;
+  color: var(--aicp-color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ledger-ops--row .ledger-ops__action.ant-btn-text {
+  height: 28px;
+}
+
+.ledger-ops__action.ant-btn-text:hover,
+.ledger-ops__action.ant-btn-text:focus-visible {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
+
+.ledger-ops__action.ant-btn-text.ant-btn-dangerous,
+.ledger-ops__action.ant-btn-text.ant-btn-dangerous:hover {
+  color: var(--aicp-color-status-risk);
+}
+
+.ledger-ops__more.ant-btn {
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  padding: 0;
+  color: var(--aicp-color-text-secondary);
+}
+
+.ledger-ops--row .ledger-ops__more.ant-btn {
+  width: 28px;
+  min-width: 28px;
+  height: 28px;
+}
+
+.ledger-ops__more.ant-btn:hover,
+.ledger-ops__more.ant-btn:focus-visible {
+  color: var(--aicp-color-text-primary);
+  background: var(--aicp-color-bg-subtle);
+}
